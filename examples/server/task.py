@@ -1,7 +1,7 @@
 import asyncio
 from typing import Union, List, Dict, Any
 
-from src.typings import (
+from typings import (
     TaskOutput,
     AgentOutput,
     ChatHistoryItem,
@@ -12,6 +12,8 @@ from src.typings import (
 
 class SessionController:
     def __init__(self):
+        # initiating a sessstion controller
+        # what does the session controller do? is it the same as th eask controller
         self.agent_lock = asyncio.Lock()
         self.env_lock = asyncio.Lock()
         self.agent_signal = asyncio.Semaphore(0)
