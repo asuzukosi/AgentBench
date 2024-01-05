@@ -1,0 +1,25 @@
+Extracting information about the project to be able to find the value in benchmarking
+AI agents and how the benchmarks work.
+
+This is used for the evaluation of LLMs as agents for a wide spectrum of tasks.
+Were there any opensource or proprietary alternatives.
+
+Environments for evaluating LLM agents
+- Operating systems
+- Database
+- Knowledge Graph
+- Digital Card Game (why?)
+- Lateral Thinking Puzzle
+- House Holding
+- Web shopping (Web Shop)
+- Web browsing (Mind2Web)
+
+what kinds of applications would people want to use autonomous agents for and how do we evaluate it?
+
+What are interactive environments, and can we build general purpose interactive environments?
+
+While LLMs begin to manifest their proficiency in LLM-as-Agent, gaps between models and the distance towards practical
+usability are significant - is there a definitive metric number point where would could target
+to decide when LLM-as-Agent would become practically useful and economically viable
+
+Or could this project itself be the frontend
