@@ -23,3 +23,6 @@ usability are significant - is there a definitive metric number point where woul
 to decide when LLM-as-Agent would become practically useful and economically viable
 
 Or could this project itself be the frontend
+
+
+We have to look at the openai gym codebase

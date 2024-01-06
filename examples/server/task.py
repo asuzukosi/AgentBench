@@ -14,16 +14,40 @@ class SessionController:
     def __init__(self):
         # initiating a sessstion controller
         # what does the session controller do? is it the same as th eask controller
-        self.agent_lock = asyncio.Lock()
-        self.env_lock = asyncio.Lock()
-        self.agent_signal = asyncio.Semaphore(0)
-        self.env_signal = asyncio.Semaphore(0)
-        self.env_input: Union[None, AgentOutput] = None
+        self.agent_lock = asyncio.Lock() # locking the agent for single task use, i.e the agetn can only be acessed by one worker at a time no matter how many workers are running concurretly
+        self.env_lock = asyncio.Lock() # locking the environment for single task use, i.e it can only be accessed by one worker even if multiple workers were running concurrently
+        self.agent_signal = asyncio.Semaphore(0) # semaphores are used to contorl access to limitied resources, like locks but they count down after every coroutine that requests them
+        self.env_signal = asyncio.Semaphore(0) # setting an environment and agent semaphor
+        self.env_input: Union[None, AgentOutput] = None # the environment input is the agent output
+        # the input to the environmet is the output of the agent, so what is the input of the agent
+        '''
+        class AgentOutput(BaseModel):
+            status: AgentOutputStatus = AgentOutputStatus.NORMAL
+            content: Union[str, None] = None
+
+            # at least one of them should be not None
+            @root_validator(pre=False, skip_on_failure=True)
+            def post_validate(cls, instance: dict):
+                assert (
+                    instance.get("status") is not AgentOutputStatus.NORMAL
+                    or instance.get("content") is not None
+                ), "If status is NORMAL, content should not be None" 
+                return instance
+        '''
+        
         self.env_output = TaskOutput()
+        '''
+        class TaskOutput(BaseModel):
+            index: Union[None, SampleIndex] = None
+            status: SampleStatus = SampleStatus.RUNNING
+            result: JSONSerializable = None
+            history: Union[None, List[ChatHistoryItem]] = None
+        '''
 
     async def agent_pull(
         self, env_input: Union[AgentOutput, None] = None
     ) -> TaskOutput:
+        # what does the agent pull do?
         async with self.agent_lock:
             if env_input is not None:
                 self.env_input = env_input
@@ -35,6 +59,7 @@ class SessionController:
 
     async def env_pull(self, history: List[ChatHistoryItem]) -> AgentOutput:
         print(">> env pull waiting")
+        # what is going on here?
         async with self.env_lock:
             self.env_output.history = history
             self.agent_signal.release()
@@ -178,6 +203,7 @@ class Task:
 
 
 class VirtualTask(Task):
+    # whats the difference between a task and a virtual task?
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(name="virtual-task", *args, **kwargs)
 
