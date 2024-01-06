@@ -26,3 +26,5 @@ Or could this project itself be the frontend
 
 
 We have to look at the openai gym codebase
+
+Check on bento ml and similar projects
